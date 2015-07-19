@@ -2,6 +2,18 @@
 ## Tom and Rob's Object Notation
 Taron is a generic object notation format with a light-weight implementation for .Net. It's designed to compete against JSON in terms of usability and readability. It can be used to describe any data structure that JSON can, as well as include optional type information about values which can't be done cleanly in JSON. All parsed data is made available to the user code via the model which doesn't transform the data, but simply encapsulate it.
 
+## Current Implementation Features
+* Load and parse format into model with error handling
+* Read data from a simple hierarchical model using Linq, recursion or basic loops
+* Embedded LR(0) parser with grammar rules for easy extensibility
+
+## Todo / Missing Features
+* Benchmark and optimise parsing where needed
+* Add system to convert model into a .Net object hierarchy
+* Serialising model back to string
+* Support for comments in the format
+* Clean up API (shouldn't need to call into Parser etc)
+
 ## Parsing
 The implementation includes a tight LR(0) parser and all lexer/grammar rules needed to parse the Taron format. Parse tables are built when the parser is instantiated and a single parser instance can parse multiple strings efficiently. Benchmarks pending.
 
@@ -59,3 +71,48 @@ EmptyMap {}
 ```
 ## Type Names
 Any value may be preceded by a type name, which is indicated by an identifier wrapped in angular brackets (< >). Type names are always optional, but it is recommended usage is consistent. The type name by itself does not do anything and does not mutate the data. It is held as a string in the model and can be used by user code as desired. An example of good type name usage is to indicate which type to use when converting complex objects to .Net classes that utilise inheritance.
+
+## Examples
+One of Taron's strong points in user readability. This makes it ideal for configuration files where a GUI is not available or not flexible enough to fully customise all options. Annoying brackets and quotes that can go missing are kept to a minimum, and in it's basic form, a config file can look very simple.
+```
+WindowWidth = 1920
+WindowHeight = 1080
+
+FullScreen = 1
+
+NickName = "Player"
+```
+Alternatively, settings can be grouped together in any arrangement.
+```
+Window
+{
+	Width = 1920
+	Height = 1080
+	FullScreen = 1
+}
+
+NickName = "Player"
+```
+For reference, the JSON equivalent:
+```
+{
+	"Window":
+	{
+		"Width": 1920,
+		"Height": 1080,
+		"FullScreen": true
+	},
+	"NickName": "Player"
+}
+```
+And the XML equivalent:
+```
+<Config>
+	<Window>
+		<Width>1920</Width>
+		<Height>1080</Height>
+		<FullScreen>1</FullScreen>
+	</Window>
+	<NickName>Player</NickName>
+</Config>
+```
