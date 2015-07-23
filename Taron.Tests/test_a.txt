@@ -11,17 +11,6 @@
 			{ Name = "Robbygen" }
 		]
 	}
-	thing2 <b_fuel>
-	{
-		FuelLevel = 0
-		MaxFuelLevel = 1000
-		Elements <Element>
-		[
-			{ Name = "Oxygen" },
-			{ Name = "Nitrogen" },
-			{ Name = "Robbygen" }
-		]
-	}
 }
 
 
