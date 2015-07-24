@@ -48,7 +48,7 @@ namespace Taron.Parsing
 
         public override string ToString()
         {
-            return $"{OutputSymbol} := {string.Join(" ", MatchSymbols)}";
+            return $"{OutputSymbol} := {string.Join(" ", MatchSymbols.Select(s => s.ToString()).ToArray())}";
         }
 
         public string ToString(int ptr)

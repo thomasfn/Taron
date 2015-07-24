@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Taron.Parsing
 {
@@ -48,9 +47,9 @@ namespace Taron.Parsing
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append('[');
-                sb.Append(string.Join(", ", LookaheadTable));
+                sb.Append(string.Join(", ", LookaheadTable.Select(r => r.ToString()).ToArray()));
                 sb.Append("] [");
-                sb.Append(string.Join(", ", GotoTable));
+                sb.Append(string.Join(", ", GotoTable.Select(i => i.ToString()).ToArray()));
                 sb.Append(']');
                 return sb.ToString();
             }
