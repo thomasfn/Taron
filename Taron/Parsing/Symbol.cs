@@ -114,7 +114,7 @@ namespace Taron.Parsing
         {
             Type = type;
             Children = children;
-            Value = string.Join(" ", children.Select(c => c.Value));
+            Value = string.Join(" ", children.Select(c => c.Value).ToArray());
         }
 
         /// <summary>

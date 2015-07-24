@@ -68,14 +68,17 @@ namespace Taron.Parsing
             {
                 if (field.FieldType == t)
                 {
-                    TokenPattern patternAttr = field.GetCustomAttribute<TokenPattern>();
-                    if (patternAttr != null)
+                    foreach(object token in field.GetCustomAttributes(typeof(TokenPattern), false))
                     {
-                        tokenInfoList.Add(new TokenInfo(
-                            new Regex(patternAttr.Pattern, RegexOptions.Compiled),
-                            (SymbolType)field.GetRawConstantValue(),
-                            patternAttr.Discard
-                        ));
+                        TokenPattern patternAttr = (TokenPattern)token;
+                        if (patternAttr != null)
+                        {
+                            tokenInfoList.Add(new TokenInfo(
+                                new Regex(patternAttr.Pattern, RegexOptions.Compiled),
+                                (SymbolType)field.GetRawConstantValue(),
+                                patternAttr.Discard
+                            ));
+                        }
                     }
                 }
             }
