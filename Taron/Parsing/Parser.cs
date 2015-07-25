@@ -650,7 +650,7 @@ namespace Taron.Parsing
                 case SymbolType.NumberLiteral:
                     return FromNumberLiteral(child.Value);
                 case SymbolType.StringLiteral:
-                    return new Model.PrimitiveValue<string>(child.Value);
+                    return new Model.PrimitiveValue<string>(child.Value.Substring(1, child.Value.Length - 2));
                 default:
                     throw new InvalidOperationException($"Unknown primitive value '{primValue.Type}'");
             }

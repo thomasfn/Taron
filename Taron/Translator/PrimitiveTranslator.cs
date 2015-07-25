@@ -34,7 +34,8 @@ namespace Taron.Translator
                 { typeof(ushort), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((ushort)obj)) },
                 { typeof(short), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((short)obj)) },
                 { typeof(uint), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)(uint)obj)) },
-                { typeof(int), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)obj)) }
+                { typeof(int), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)obj)) },
+                { typeof(string), new ToFro(node => (node as PrimitiveValue<string>).Value, obj => new PrimitiveValue<string>((string)obj)) }
             };
         }
 
@@ -45,7 +46,7 @@ namespace Taron.Translator
         /// <returns></returns>
         public TranslateCapability CanTranslate(Type type)
         {
-            return typeMap.ContainsKey(type) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise : TranslateCapability.None;
+            return (typeMap.ContainsKey(type) || type.IsEnum) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise: TranslateCapability.None;
         }
 
         /// <summary>
