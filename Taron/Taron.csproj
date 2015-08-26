@@ -59,6 +59,7 @@
     <Compile Include="Translator\IModelTranslator.cs" />
     <Compile Include="Translator\PrimitiveTranslator.cs" />
     <Compile Include="Translator\ReflectionTranslator.cs" />
+    <Compile Include="Translator\Translate.cs" />
     <Compile Include="Translator\TranslateOptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
