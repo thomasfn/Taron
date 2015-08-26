@@ -24,6 +24,7 @@ namespace Taron.Tests
             public int FuelLevel;
             public int MaxFuelLevel;
             public Element[] Elements;
+            public bool BooleanTest;
 
             public b_fuel()
             {

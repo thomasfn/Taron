@@ -79,6 +79,7 @@ namespace Taron.Parsing
                 // PrimitiveValue := String | Number
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.StringLiteral),
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.NumberLiteral),
+                GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.BooleanLiteral),
 
                 // MapValue := '{' KeyValueSeq '}' | '{' '}'
                 GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.KeyValueSeq, SymbolType.CloseMap),
@@ -651,9 +652,19 @@ namespace Taron.Parsing
                     return FromNumberLiteral(child.Value);
                 case SymbolType.StringLiteral:
                     return new Model.PrimitiveValue<string>(child.Value.Substring(1, child.Value.Length - 2));
+                case SymbolType.BooleanLiteral:
+                    return FromBooleanLiteral(child.Value);
                 default:
                     throw new InvalidOperationException($"Unknown primitive value '{primValue.Type}'");
             }
+        }
+
+        private static Model.ValueNode FromBooleanLiteral(string literal)
+        {
+            bool bVal;
+            if (bool.TryParse(literal, out bVal))
+                return new Model.PrimitiveValue<bool>(bVal);
+            throw new InvalidOperationException($"Unknown boolean primitive '{literal}'");
         }
 
         private static Model.ValueNode FromNumberLiteral(string literal)
