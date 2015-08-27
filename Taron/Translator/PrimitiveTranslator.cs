@@ -35,7 +35,8 @@ namespace Taron.Translator
                 { typeof(short), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((short)obj)) },
                 { typeof(uint), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)(uint)obj)) },
                 { typeof(int), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)obj)) },
-                { typeof(string), new ToFro(node => (node as PrimitiveValue<string>).Value, obj => new PrimitiveValue<string>((string)obj)) }
+                { typeof(string), new ToFro(node => (node as PrimitiveValue<string>).Value, obj => new PrimitiveValue<string>((string)obj)) },
+                { typeof(bool), new ToFro(node => (node as PrimitiveValue<bool>).Value, obj => new PrimitiveValue<bool>((bool)obj)) }
             };
         }
 

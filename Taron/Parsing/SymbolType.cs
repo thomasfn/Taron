@@ -36,8 +36,9 @@ namespace Taron.Parsing
 
         [TokenPattern("\\\"([^\\\"]+)\\\"")] StringLiteral                      = Terminal | 0x008,
         [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)|(\.[0-9]+)")] NumberLiteral       = Terminal | 0x009,
+        [TokenPattern("(?:false|true)")] BooleanLiteral                         = Terminal | 0x00A,
 
-        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00A,
+        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00B,
 
         TerminalCount = 12,
 
