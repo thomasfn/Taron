@@ -11,24 +11,35 @@ namespace Taron.Tests
     public static class TestUtils
     {
         /// <summary>
+        /// Tests the primitive value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="valueNode"></param>
+        /// <param name="expectedValue"></param>
+        public static void TestPrimitiveValue<T>(ValueNode valueNode, T expectedValue)
+        {
+            Assert.IsInstanceOfType(valueNode, typeof(PrimitiveValue<T>));
+            PrimitiveValue<T> testStringNodeStr = valueNode.As<PrimitiveValue<T>>();
+            Assert.IsNotNull(testStringNodeStr);
+            Assert.AreEqual(expectedValue, testStringNodeStr.Value);
+        }
+
+        /// <summary>
         /// Tests the primitive property on the specified map
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent"></param>
         /// <param name="key"></param>
-        /// <param name="value"></param>
-        public static void TestPrimitiveProperty<T>(MapValue parent, string key, T value)
+        /// <param name="expectedValue"></param>
+        public static void TestPrimitiveProperty<T>(MapValue parent, string key, T expectedValue)
         {
             // Test presense of property
-            ValueNode testStringNode;
-            Assert.IsTrue(parent.TryGetValue(key, out testStringNode));
-            Assert.IsNotNull(testStringNode);
+            ValueNode valueNode;
+            Assert.IsTrue(parent.TryGetValue(key, out valueNode));
+            Assert.IsNotNull(valueNode);
 
             // Test value of property
-            Assert.IsInstanceOfType(testStringNode, typeof(PrimitiveValue<T>));
-            PrimitiveValue<T> testStringNodeStr = testStringNode.As<PrimitiveValue<T>>();
-            Assert.IsNotNull(testStringNodeStr);
-            Assert.AreEqual(value, testStringNodeStr.Value);
+            TestPrimitiveValue(valueNode, expectedValue);
         }
 
         /// <summary>
@@ -41,16 +52,13 @@ namespace Taron.Tests
         public static void TestPrimitiveTypedProperty<T>(MapValue parent, string key, string typeName, T value)
         {
             // Test presense of property
-            ValueNode testStringNode;
-            Assert.IsTrue(parent.TryGetValue(key, out testStringNode));
-            Assert.IsNotNull(testStringNode);
+            ValueNode valueNode;
+            Assert.IsTrue(parent.TryGetValue(key, out valueNode));
+            Assert.IsNotNull(valueNode);
 
             // Test value of property
-            Assert.IsInstanceOfType(testStringNode, typeof(PrimitiveValue<T>));
-            PrimitiveValue<T> testStringNodeStr = testStringNode.As<PrimitiveValue<T>>();
-            Assert.IsNotNull(testStringNodeStr);
-            Assert.AreEqual(typeName, testStringNodeStr.TypeName);
-            Assert.AreEqual(value, testStringNodeStr.Value);
+            TestPrimitiveValue(valueNode, value);
+            Assert.AreEqual(typeName, valueNode.TypeName);
         }
 
         #region Basic Reusable Map Test

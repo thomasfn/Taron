@@ -34,7 +34,7 @@ namespace Taron.Parsing
         [TokenPattern(@"=")] Assign         = Terminal | 0x008,
         [TokenPattern(@",")] Seperator      = Terminal | 0x009,
 
-        [TokenPattern("\"([^\"]*)\"")] StringLiteral                      = Terminal | 0x00A,
+        [TokenPattern("\"(([^\"\\\\])*(\\\\\")?)*\\\"")] StringLiteral                      = Terminal | 0x00A,
         [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral       = Terminal | 0x00B,
         [TokenPattern("(?:false|true)")] BooleanLiteral                         = Terminal | 0x00C,
 

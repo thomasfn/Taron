@@ -43,7 +43,7 @@ namespace Taron.Tests
         public void Basic_String()
         {
             // Iterate each test value
-            string[] testValues = new string[] { "", "test", " ", "TestString" };
+            string[] testValues = new string[] { "", "test", " ", "TestString", "\\\"" };
             foreach (string testValue in testValues)
             {
                 // Parse
