@@ -25,22 +25,22 @@ namespace Taron.Parsing
         [TokenPattern("{")] OpenMap       = Terminal | 0x002,
         [TokenPattern("}")] CloseMap      = Terminal | 0x003,
 
-        [TokenPattern(@"\[")] OpenArray       = Terminal | 0x00B,
-        [TokenPattern(@"\]")] CloseArray      = Terminal | 0x00C,
+        [TokenPattern(@"\[")] OpenArray       = Terminal | 0x004,
+        [TokenPattern(@"\]")] CloseArray      = Terminal | 0x005,
 
-        [TokenPattern("<")] OpenTypeDef     = Terminal | 0x004,
-        [TokenPattern(">")] CloseTypeDef    = Terminal | 0x005,
+        [TokenPattern("<")] OpenTypeDef     = Terminal | 0x006,
+        [TokenPattern(">")] CloseTypeDef    = Terminal | 0x007,
 
-        [TokenPattern(@"=")] Assign         = Terminal | 0x006,
-        [TokenPattern(@",")] Seperator      = Terminal | 0x007,
+        [TokenPattern(@"=")] Assign         = Terminal | 0x008,
+        [TokenPattern(@",")] Seperator      = Terminal | 0x009,
 
-        [TokenPattern("\\\"([^\\\"]+)\\\"")] StringLiteral                      = Terminal | 0x008,
-        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)|(\.[0-9]+)")] NumberLiteral       = Terminal | 0x009,
-        [TokenPattern("(?:false|true)")] BooleanLiteral                         = Terminal | 0x00A,
+        [TokenPattern("\"([^\"]*)\"")] StringLiteral                      = Terminal | 0x00A,
+        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral       = Terminal | 0x00B,
+        [TokenPattern("(?:false|true)")] BooleanLiteral                         = Terminal | 0x00C,
 
-        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00B,
+        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00D,
 
-        TerminalCount = 12,
+        TerminalCount = 0x00D,
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Taron.Parsing
         KeyValueSeq         = NonTerminal | 0x009,
         ArraySeq            = NonTerminal | 0x00A,
 
-        NonTerminalCount = 10
+        NonTerminalCount = 0x00A
 
         #endregion
     }
