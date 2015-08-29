@@ -1,16 +1,22 @@
 ﻿Behaviours
 {
-	thing <b_fuel>
+	thingy <b_fuel>
 	{
-		FuelLevel = 0
-		MaxFuelLevel = 1000
-		Elements <Element>
-		[
-			{ Name = "Oxygen" },
-			{ Name = "Nitrogen" },
-			{ Name = "Robbygen" }
-		]
+		IntTest = 1
+		IntArrayTest [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+		StringTest = "Hello world!"
+		StringArrayTest [ "Hello", "world", "!" ]
+
+		CharTest = "H"
+		CharArrayTest [ "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" ]
+
 		BooleanTest = true
+		BooleanArrayTest [ true, false, true, true, false, false, true ]
+
+		EnumTest = TestEnum.Two
+
+		DynamicArrayTest [ true, "Hello world!", 1, "H" ]
 	}
 }
 

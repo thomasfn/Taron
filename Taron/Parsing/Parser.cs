@@ -81,6 +81,9 @@ namespace Taron.Parsing
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.NumberLiteral),
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.BooleanLiteral),
 
+                // EnumValue := Identifier '.' Identifier
+                GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.DotOperator, SymbolType.Identifier),
+
                 // MapValue := '{' KeyValueSeq '}' | '{' '}'
                 GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.KeyValueSeq, SymbolType.CloseMap),
                 GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.CloseMap),
@@ -101,10 +104,11 @@ namespace Taron.Parsing
                 GrammarRule.Sequence(SymbolType.ComplexValue,            SymbolType.MapValue),
                 GrammarRule.Sequence(SymbolType.ComplexValue,            SymbolType.ArrayValue),
 
-                // KeyValue := Identifier ComplexValue | Identifier '=' PrimitiveValue
+                // KeyValue := Identifier ComplexValue | Identifier '=' PrimitiveValue | Identifier '=' EnumValue
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.ComplexValue),
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.TypeName, SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
+                GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.Assign, SymbolType.EnumValue),
 
                 // KeyValueSeq := KeyValue*
                 GrammarRule.Sequence(SymbolType.KeyValueSeq,            SymbolType.KeyValueSeq, SymbolType.KeyValue),
@@ -598,11 +602,24 @@ namespace Taron.Parsing
             {
                 case SymbolType.PrimitiveValue:
                     return FromPrimitiveValue(src);
+                case SymbolType.EnumValue:
+                    return FromEnumValue(src);
                 case SymbolType.ComplexValue:
                     return FromComplexValue(src);
                 default:
                     return null;
             }
+        }
+
+        private static Model.ValueNode FromEnumValue(Symbol val)
+        {
+            // Verify
+            if (val.Type != SymbolType.EnumValue) throw new InvalidOperationException($"Trying to read enum value from invalid symbol '{val.Type}'");
+
+            Symbol typeidentifier = val.Children[0];
+            Symbol valueidentifier = val.Children[2];
+
+            return new Model.EnumValue(typeidentifier.Value, valueidentifier.Value);
         }
 
         private static Model.ValueNode FromComplexValue(Symbol complexValue)

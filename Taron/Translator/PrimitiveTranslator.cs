@@ -47,7 +47,7 @@ namespace Taron.Translator
         /// <returns></returns>
         public TranslateCapability CanTranslate(Type type)
         {
-            return (typeMap.ContainsKey(type) || type.IsEnum) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise: TranslateCapability.None;
+            return typeMap.ContainsKey(type) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise: TranslateCapability.None;
         }
 
         /// <summary>

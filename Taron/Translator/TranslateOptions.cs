@@ -23,6 +23,7 @@ namespace Taron.Translator
             {
                 TranslateOptions opts = new TranslateOptions();
                 opts.AddTranslator(new PrimitiveTranslator());
+                opts.AddTranslator(new EnumTranslator());
                 opts.AddTranslator(new ReflectionTranslator(opts));
                 return opts;
             }

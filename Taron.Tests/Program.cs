@@ -5,6 +5,13 @@ using Taron.Parsing;
 using Taron.Model;
 using Taron.Translator;
 
+public enum TestEnum
+{
+    Unknown = 0,
+    One = 1,
+    Two = 2,
+}
+
 namespace Taron.Tests
 {
     class Program
@@ -24,7 +31,22 @@ namespace Taron.Tests
             public int FuelLevel;
             public int MaxFuelLevel;
             public Element[] Elements;
+
             public bool BooleanTest;
+            public bool[] BooleanArrayTest;
+
+            public string StringTest;
+            public string[] StringArrayTest;
+
+            public char CharTest;
+            public char[] CharArrayTest;
+
+            public int IntTest;
+            public int[] IntArrayTest;
+
+            public object[] DynamicArrayTest;
+
+            public TestEnum EnumTest;
 
             public b_fuel()
             {
