@@ -22,11 +22,11 @@ namespace Taron.Parsing
 
         [TokenPattern(@"\s+", true)] Whitespace   = Terminal | 0x001,
 
-        [TokenPattern("{")] OpenMap       = Terminal | 0x002,
-        [TokenPattern("}")] CloseMap      = Terminal | 0x003,
+        [TokenPattern("{")] OpenMap         = Terminal | 0x002,
+        [TokenPattern("}")] CloseMap        = Terminal | 0x003,
 
-        [TokenPattern(@"\[")] OpenArray       = Terminal | 0x004,
-        [TokenPattern(@"\]")] CloseArray      = Terminal | 0x005,
+        [TokenPattern(@"\[")] OpenArray     = Terminal | 0x004,
+        [TokenPattern(@"\]")] CloseArray    = Terminal | 0x005,
 
         [TokenPattern("<")] OpenTypeDef     = Terminal | 0x006,
         [TokenPattern(">")] CloseTypeDef    = Terminal | 0x007,
@@ -34,13 +34,14 @@ namespace Taron.Parsing
         [TokenPattern(@"=")] Assign         = Terminal | 0x008,
         [TokenPattern(@",")] Seperator      = Terminal | 0x009,
 
-        [TokenPattern("\"([^\"]*)\"")] StringLiteral                      = Terminal | 0x00A,
-        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral       = Terminal | 0x00B,
-        [TokenPattern("(?:false|true)")] BooleanLiteral                         = Terminal | 0x00C,
+        [TokenPattern("\"(([^\"\\\\])*(\\\\\")?)*\\\"")] StringLiteral      = Terminal | 0x00A,
+        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral              = Terminal | 0x00B,
+        [TokenPattern("(?:false|true)")] BooleanLiteral                     = Terminal | 0x00C,
 
         [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00D,
+        [TokenPattern(@"\.")] Dot                           = Terminal | 0x00E,
 
-        TerminalCount = 0x00D,
+        TerminalCount = 0x00E,
 
         #endregion
 
@@ -48,16 +49,17 @@ namespace Taron.Parsing
 
         TypeName            = NonTerminal | 0x001,
         PrimitiveValue      = NonTerminal | 0x002,
-        MapValue            = NonTerminal | 0x003,
-        ArrayValue          = NonTerminal | 0x004,
-        TypedMapValue       = NonTerminal | 0x005,
-        TypedArrayValue     = NonTerminal | 0x006,
-        ComplexValue        = NonTerminal | 0x007,
-        KeyValue            = NonTerminal | 0x008,
-        KeyValueSeq         = NonTerminal | 0x009,
-        ArraySeq            = NonTerminal | 0x00A,
+        EnumValue           = NonTerminal | 0x003,
+        MapValue            = NonTerminal | 0x004,
+        ArrayValue          = NonTerminal | 0x005,
+        TypedMapValue       = NonTerminal | 0x006,
+        TypedArrayValue     = NonTerminal | 0x007,
+        ComplexValue        = NonTerminal | 0x008,
+        KeyValue            = NonTerminal | 0x009,
+        KeyValueSeq         = NonTerminal | 0x00A,
+        ArraySeq            = NonTerminal | 0x00B,
 
-        NonTerminalCount = 0x00A
+        NonTerminalCount = 0x00B
 
         #endregion
     }
