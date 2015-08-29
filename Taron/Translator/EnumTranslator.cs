@@ -64,7 +64,7 @@ namespace Taron.Translator
                         return result;
                 }
                 else
-                    throw new InvalidOperationException($"No such TaronEnumAttribute with typename of ({enumvalue.Type})");
+                    throw new InvalidOperationException($"No such TaronEnumAttribute with typename of ({String.Join(".", enumvalue.Value, 0, enumvalue.Value.Length - 1)})");
             }
             return null;
         }

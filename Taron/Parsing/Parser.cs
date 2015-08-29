@@ -614,17 +614,6 @@ namespace Taron.Parsing
             }
         }
 
-        private static Model.ValueNode FromEnumValue(Symbol val)
-        {
-            // Verify
-            if (val.Type != SymbolType.EnumValue) throw new InvalidOperationException($"Trying to read enum value from invalid symbol '{val.Type}'");
-
-            Symbol typeidentifier = val.Children[0];
-            Symbol valueidentifier = val.Children[2];
-
-            return new Model.EnumValue(typeidentifier.Value, valueidentifier.Value);
-        }
-
         private static Model.ValueNode FromComplexValue(Symbol complexValue)
         {
             // Verify
@@ -677,6 +666,31 @@ namespace Taron.Parsing
                 default:
                     throw new InvalidOperationException($"Unknown primitive value '{primValue.Type}'");
             }
+        }
+
+        private static Model.ValueNode FromEnumValue(Symbol enumValue)
+        {
+            List<string> idList = new List<string>();
+            Symbol curEnum = enumValue;
+            while (curEnum != null)
+            {
+                if (curEnum.Type == SymbolType.Identifier)
+                {
+                    idList.Add(curEnum.Value);
+                    curEnum = null;
+                }
+                else if (curEnum.Type == SymbolType.EnumValue)
+                {
+                    idList.Add(curEnum.Children[0].Value);
+                    curEnum = curEnum.Children[2];
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Trying to read enumeration value from invalid symbol '{curEnum.Type}'");
+                }
+            }
+
+            return new Model.EnumValue(idList.ToArray());
         }
 
         private static Model.ValueNode FromBooleanLiteral(string literal)

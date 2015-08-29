@@ -5,6 +5,7 @@ using System.Linq;
 
 using Taron;
 using Taron.Model;
+using Taron.Translator;
 
 namespace Taron.Tests
 {
@@ -43,7 +44,7 @@ namespace Taron.Tests
         public void Basic_Strings()
         {
             // Iterate each test value
-            string[] testValues = new string[] { "", "test", " ", "TestString" };
+            string[] testValues = new string[] { "", "test", " ", "TestString", "\\\"" };
             foreach (string testValue in testValues)
             {
                 // Parse
@@ -167,7 +168,7 @@ namespace Taron.Tests
             }
         }
 
-        [Translator.TaronEnum("EnumTest", typeof(EnumTest))]
+        [TaronEnum("EnumTest", typeof(EnumTest))]
         public enum EnumTest
         {
             One = 1,
