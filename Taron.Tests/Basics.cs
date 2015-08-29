@@ -37,10 +37,10 @@ namespace Taron.Tests
         }
 
         /// <summary>
-        /// Tests parsing of simple string key value
+        /// Tests parsing of simple string key values
         /// </summary>
         [TestMethod]
-        public void Basic_String()
+        public void Basic_Strings()
         {
             // Iterate each test value
             string[] testValues = new string[] { "", "test", " ", "TestString", "\\\"" };
@@ -62,7 +62,7 @@ namespace Taron.Tests
         }
 
         /// <summary>
-        /// Tests parsing of simple decimal key value
+        /// Tests parsing of simple decimal key values
         /// </summary>
         [TestMethod]
         public void Basic_Decimals()
@@ -102,7 +102,7 @@ namespace Taron.Tests
         }
 
         /// <summary>
-        /// Tests parsing of simple integer key value
+        /// Tests parsing of simple integer key values
         /// </summary>
         [TestMethod]
         public void Basic_Integers()
@@ -127,10 +127,10 @@ namespace Taron.Tests
         }
 
         /// <summary>
-        /// Tests parsing of simple boolean key value
+        /// Tests parsing of simple boolean key values
         /// </summary>
         [TestMethod]
-        public void Basic_Boolean()
+        public void Basic_Booleans()
         {
             // Iterate each test value
             string[] testValues = new string[] { "true", "false" };
@@ -156,6 +156,45 @@ namespace Taron.Tests
             {
                 TaronParser.Parse("TestBoolean = True");
                 TaronParser.Parse("TestBoolean = False");
+            }
+            catch (Exception theEx)
+            {
+                ex = theEx;
+            }
+            finally
+            {
+                Assert.IsNotNull(ex);
+            }
+        }
+
+        /// <summary>
+        /// Tests parsing of simple enumeration key values
+        /// </summary>
+        [TestMethod]
+        public void Basic_Enumerations()
+        {
+            // Iterate each test value
+            string[] testValues = new string[] { "A.B", "Test.Thing", "   Whitespace  .   Yep " };
+            foreach (string testValue in testValues)
+            {
+                // Parse
+                Node node = TaronParser.Parse($"TestEnum = {testValue}");
+
+                // Test type and size
+                Assert.IsInstanceOfType(node, typeof(MapValue));
+                MapValue mapNode = node.As<MapValue>();
+                Assert.IsNotNull(mapNode);
+                Assert.AreEqual(1, mapNode.Count);
+
+                // Test property
+                Assert.AreEqual("TestEnum", mapNode.Keys.First());
+            }
+
+            // Test error on invalid enums
+            Exception ex = null;
+            try
+            {
+                TaronParser.Parse("TestEnum = A");
             }
             catch (Exception theEx)
             {

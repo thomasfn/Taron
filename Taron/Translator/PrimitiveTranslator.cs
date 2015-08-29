@@ -36,7 +36,9 @@ namespace Taron.Translator
                 { typeof(uint), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)(uint)obj)) },
                 { typeof(int), new ToFro(node => (node as PrimitiveValue<int>).Value, obj => new PrimitiveValue<int>((int)obj)) },
                 { typeof(string), new ToFro(node => (node as PrimitiveValue<string>).Value, obj => new PrimitiveValue<string>((string)obj)) },
-                { typeof(bool), new ToFro(node => (node as PrimitiveValue<bool>).Value, obj => new PrimitiveValue<bool>((bool)obj)) }
+                { typeof(bool), new ToFro(node => (node as PrimitiveValue<bool>).Value, obj => new PrimitiveValue<bool>((bool)obj)) },
+                { typeof(double), new ToFro(node => (node as PrimitiveValue<double>).Value, obj => new PrimitiveValue<double>((double)obj)) },
+                { typeof(float), new ToFro(node => (node as PrimitiveValue<double>).Value, obj => new PrimitiveValue<double>((float)obj)) }
             };
         }
 
@@ -47,7 +49,9 @@ namespace Taron.Translator
         /// <returns></returns>
         public TranslateCapability CanTranslate(Type type)
         {
-            return (typeMap.ContainsKey(type) || type.IsEnum) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise: TranslateCapability.None;
+            return type == typeof(object) ? TranslateCapability.CanDeserialise :
+                (typeMap.ContainsKey(type) || type.IsEnum) ? TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise :
+                TranslateCapability.None;
         }
 
         /// <summary>
@@ -71,6 +75,10 @@ namespace Taron.Translator
         /// <returns></returns>
         public object Deserialise(Type t, ValueNode node)
         {
+            if (t == typeof(object))
+            {
+                return ToBasicObject(node);
+            }
             ToFro toFro;
             if (!typeMap.TryGetValue(t, out toFro)) return null;
             return toFro.FromModel(node);
@@ -86,5 +94,23 @@ namespace Taron.Translator
             // We can't populate a value type, this won't work
             throw new InvalidOperationException("Can't populate value type");
         }
+
+        #region Object
+
+        private static object ToBasicObject(ValueNode node)
+        {
+            Type t = node.GetType();
+            Type[] genArgs = t.GetGenericArguments();
+            if (genArgs?.Length > 0 && typeof(PrimitiveValue<>).MakeGenericType(genArgs) == t)
+            {
+                return t.GetProperty("Value").GetValue(node, null);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

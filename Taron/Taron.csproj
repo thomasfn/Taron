@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ArrayValue.cs" />
+    <Compile Include="Model\EnumValue.cs" />
     <Compile Include="Model\MapValue.cs" />
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\PrimitiveValue.cs" />

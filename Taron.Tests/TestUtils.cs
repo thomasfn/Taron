@@ -61,9 +61,39 @@ namespace Taron.Tests
             Assert.AreEqual(typeName, valueNode.TypeName);
         }
 
+        /// <summary>
+        /// Tests the enum value
+        /// </summary>
+        /// <param name="valueNode"></param>
+        /// <param name="expectedFullValue"></param>
+        public static void TestEnumValue(ValueNode valueNode, string expectedFullValue)
+        {
+            Assert.IsInstanceOfType(valueNode, typeof(EnumValue));
+            EnumValue enumValue = valueNode.As<EnumValue>();
+            Assert.IsNotNull(enumValue);
+            Assert.AreEqual(expectedFullValue, enumValue.Full);
+        }
+
+        /// <summary>
+        /// Tests the enum property on the specified map
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="key"></param>
+        /// <param name="expectedFullValue"></param>
+        public static void TestEnumProperty(MapValue parent, string key, string expectedFullValue)
+        {
+            // Test presense of property
+            ValueNode valueNode;
+            Assert.IsTrue(parent.TryGetValue(key, out valueNode));
+            Assert.IsNotNull(valueNode);
+
+            // Test value of property
+            TestEnumValue(valueNode, expectedFullValue);
+        }
+
         #region Basic Reusable Map Test
 
-        public const string ReusableMapTest = "DecimalVal = 10.0 IntegerVal = 5 StringVal = \"thingy\" BooleanVal = true";
+        public const string ReusableMapTest = "DecimalVal = 10.0 IntegerVal = 5 StringVal = \"thingy\" BooleanVal = true EnumValue = A.B";
         public const string ReusableMapTest_Map = "{" + ReusableMapTest + "}";
 
         /// <summary>
@@ -72,11 +102,29 @@ namespace Taron.Tests
         /// <param name="map"></param>
         public static void TestReusableMap(MapValue map)
         {
-            Assert.AreEqual(4, map.Count);
+            Assert.AreEqual(5, map.Count);
             TestPrimitiveProperty(map, "DecimalVal", 10.0);
             TestPrimitiveProperty(map, "IntegerVal", 5);
             TestPrimitiveProperty(map, "StringVal", "thingy");
             TestPrimitiveProperty(map, "BooleanVal", true);
+            TestEnumProperty(map, "EnumValue", "A.B");
+        }
+
+        public struct ReusableMapStruct
+        {
+            public double DecimalVal;
+            public int IntegerVal;
+            public string StringVal;
+            public bool BooleanVal;
+            // TODO: Enum
+
+            public void Test()
+            {
+                Assert.AreEqual(10.0, DecimalVal);
+                Assert.AreEqual(5, IntegerVal);
+                Assert.AreEqual("thingy", StringVal);
+                Assert.AreEqual(true, BooleanVal);
+            }
         }
 
         #endregion
