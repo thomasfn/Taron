@@ -3,34 +3,52 @@
 namespace Taron.Model
 {
     /// <summary>
-    /// Represents a primitive value node
+    /// Represents an enumeration value node
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class EnumValue : ValueNode
     {
         /// <summary>
-        /// Gets the type value of this node
+        /// Gets or sets the value of this node
         /// </summary>
-        public string Type { get; set; }
+        public string[] Value { get; set; }
 
         /// <summary>
-        /// Gets the value value of this node
+        /// Gets or sets the concatenated value of this node
         /// </summary>
-        public string Value { get; set; }
+        public string Full
+        {
+            get
+            {
+                return string.Join(".", Value);
+            }
+            set
+            {
+                Value = value.Split('.');
+            }
+        }
 
         /// <summary>
-        /// Initialises a new instance of the PrimitiveValue class
+        /// Initialises a new instance of the EnumValue class
         /// </summary>
         /// <param name="value"></param>
-        public EnumValue(string type, string value)
+        public EnumValue(string[] value)
         {
-            Type = type;
             Value = value;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the EnumValue class
+        /// </summary>
+        /// <param name="value"></param>
+        public EnumValue(string value)
+        {
+            Full = value;
         }
 
         public override string ToString()
         {
-            return $"{base.ToString()} ({Type}.{Value})";
+            return $"{base.ToString()} ({Full})";
         }
     }
 }

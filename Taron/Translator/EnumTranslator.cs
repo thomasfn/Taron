@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
+using System.Reflection;
 using Taron.Model;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Taron.Translator
 {
@@ -10,9 +11,10 @@ namespace Taron.Translator
     /// </summary>
     public class EnumTranslator : IModelTranslator
     {
+        public static Dictionary<string, Type> EnumTypes = new Dictionary<string, Type>();
+
         internal EnumTranslator()
         {
-
         }
 
         /// <summary>
@@ -36,6 +38,7 @@ namespace Taron.Translator
             {
                 Enum enumobj = (Enum)obj;
 
+                System.Diagnostics.Debug.WriteLine("yay");
             }
             return null;
         }
@@ -52,11 +55,16 @@ namespace Taron.Translator
             {
                 var enumvalue = (EnumValue)node;
 
-                Type type = System.Reflection.Assembly.GetEntryAssembly().GetType(enumvalue.Type, true);
+                Type enumtype;
 
-                var result = Enum.Parse(type, enumvalue.Value);
-                if (result != null)
-                    return result;
+                if (EnumTypes.TryGetValue(String.Join(".", enumvalue.Value, 0, enumvalue.Value.Length - 1), out enumtype))
+                {
+                    var result = Enum.Parse(enumtype, enumvalue.Value.Last());
+                    if (result != null)
+                        return result;
+                }
+                else
+                    throw new InvalidOperationException($"No such TaronEnumAttribute with typename of ({enumvalue.Type})");
             }
             return null;
         }

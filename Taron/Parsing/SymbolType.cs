@@ -33,7 +33,7 @@ namespace Taron.Parsing
 
         [TokenPattern(@"=")] Assign         = Terminal | 0x008,
         [TokenPattern(@",")] Seperator      = Terminal | 0x009,
-        [TokenPattern(@"\.")] DotOperator    = Terminal | 0x00A,
+        [TokenPattern(@"\.")] Dot    = Terminal | 0x00A,
 
         [TokenPattern("\"([^\"]*)\"")] StringLiteral                      = Terminal | 0x00B,
         [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral            = Terminal | 0x00C,
@@ -43,7 +43,9 @@ namespace Taron.Parsing
 
         [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier = Terminal | 0x00F,
 
-        TerminalCount = 16,
+        [TokenPattern(@".*")] Everything = Terminal | 0x010,
+
+        TerminalCount = 0x010,
 
         #endregion
 
@@ -51,17 +53,17 @@ namespace Taron.Parsing
 
         TypeName            = NonTerminal | 0x001,
         PrimitiveValue      = NonTerminal | 0x002,
-        MapValue            = NonTerminal | 0x003,
-        ArrayValue          = NonTerminal | 0x004,
-        TypedMapValue       = NonTerminal | 0x005,
-        TypedArrayValue     = NonTerminal | 0x006,
-        ComplexValue        = NonTerminal | 0x007,
-        KeyValue            = NonTerminal | 0x008,
-        KeyValueSeq         = NonTerminal | 0x009,
-        ArraySeq            = NonTerminal | 0x00A,
-        EnumValue           = NonTerminal | 0x00B,
+        EnumValue           = NonTerminal | 0x003,
+        MapValue            = NonTerminal | 0x004,
+        ArrayValue          = NonTerminal | 0x005,
+        TypedMapValue       = NonTerminal | 0x006,
+        TypedArrayValue     = NonTerminal | 0x007,
+        ComplexValue        = NonTerminal | 0x008,
+        KeyValue            = NonTerminal | 0x009,
+        KeyValueSeq         = NonTerminal | 0x00A,
+        ArraySeq            = NonTerminal | 0x00B,
 
-        NonTerminalCount = 11,
+        NonTerminalCount = 0x00B
 
         #endregion
     }

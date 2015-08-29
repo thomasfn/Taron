@@ -62,6 +62,7 @@
     <Compile Include="Translator\EnumTranslator.cs" />
     <Compile Include="Translator\PrimitiveTranslator.cs" />
     <Compile Include="Translator\ReflectionTranslator.cs" />
+    <Compile Include="Translator\TaronEnumAttribute.cs" />
     <Compile Include="Translator\Translate.cs" />
     <Compile Include="Translator\TranslateOptions.cs" />
   </ItemGroup>

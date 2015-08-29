@@ -76,13 +76,14 @@ namespace Taron.Parsing
                 // TypeName := '<' Identifier '>'
                 GrammarRule.Sequence(SymbolType.TypeName,       SymbolType.OpenTypeDef, SymbolType.Identifier, SymbolType.CloseTypeDef),
 
-                // PrimitiveValue := String | Number
+                // PrimitiveValue := String | Number | Boolean
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.StringLiteral),
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.NumberLiteral),
                 GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.BooleanLiteral),
 
-                // EnumValue := Identifier '.' Identifier
-                GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.DotOperator, SymbolType.Identifier),
+                // EnumValue := Identifier '.' Identifier | Identifier '.' EnumValue
+                GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.Dot, SymbolType.Identifier),
+                //GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.Dot, SymbolType.EnumValue),
 
                 // MapValue := '{' KeyValueSeq '}' | '{' '}'
                 GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.KeyValueSeq, SymbolType.CloseMap),
@@ -104,21 +105,23 @@ namespace Taron.Parsing
                 GrammarRule.Sequence(SymbolType.ComplexValue,            SymbolType.MapValue),
                 GrammarRule.Sequence(SymbolType.ComplexValue,            SymbolType.ArrayValue),
 
-                // KeyValue := Identifier ComplexValue | Identifier '=' PrimitiveValue | Identifier '=' EnumValue
+                // KeyValue := Identifier ComplexValue | Identifier '=' PrimitiveValue | Identifier '=' EnumValue | TypeName Identifier '=' PrimitiveValue
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.ComplexValue),
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
-                GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.TypeName, SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.Assign, SymbolType.EnumValue),
+                GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.TypeName, SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
 
                 // KeyValueSeq := KeyValue*
                 GrammarRule.Sequence(SymbolType.KeyValueSeq,            SymbolType.KeyValueSeq, SymbolType.KeyValue),
                 GrammarRule.Sequence(SymbolType.KeyValueSeq,            SymbolType.KeyValue),
 
-                // ArraySeq := ArraySeq ',' PrimitiveValue | ArraySeq ',' ComplexValue | PrimitiveValue | ComplexValue
+                // ArraySeq := ArraySeq ',' PrimitiveValue | ArraySeq ',' ComplexValue | ArraySeq ',' EnumValue | PrimitiveValue | ComplexValue | EnumValue
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ArraySeq, SymbolType.Seperator, SymbolType.PrimitiveValue),
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ArraySeq, SymbolType.Seperator, SymbolType.ComplexValue),
+                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ArraySeq, SymbolType.Seperator, SymbolType.EnumValue),
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.PrimitiveValue),
-                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ComplexValue)
+                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ComplexValue),
+                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.EnumValue)
 
             }.ToArray();
             goalSymbol = SymbolType.KeyValueSeq;
