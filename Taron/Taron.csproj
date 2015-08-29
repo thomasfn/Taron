@@ -49,6 +49,7 @@
     <Compile Include="Model\EnumValue.cs" />
     <Compile Include="Model\PrimitiveValue.cs" />
     <Compile Include="Model\ValueNode.cs" />
+    <Compile Include="TaronParser.cs" />
     <Compile Include="Parsing\GrammarRule.cs" />
     <Compile Include="Parsing\Lexer.cs" />
     <Compile Include="Parsing\Parser.cs" />
