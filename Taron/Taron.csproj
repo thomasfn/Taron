@@ -44,9 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ArrayValue.cs" />
+    <Compile Include="Model\EnumValue.cs" />
     <Compile Include="Model\MapValue.cs" />
     <Compile Include="Model\Node.cs" />
-    <Compile Include="Model\EnumValue.cs" />
     <Compile Include="Model\PrimitiveValue.cs" />
     <Compile Include="Model\ValueNode.cs" />
     <Compile Include="TaronParser.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="StringUtils.cs" />
     <Compile Include="Translator\IModelTranslator.cs" />
     <Compile Include="Translator\EnumTranslator.cs" />
+    <Compile Include="Translator\ObjectTranslator.cs" />
     <Compile Include="Translator\PrimitiveTranslator.cs" />
     <Compile Include="Translator\ReflectionTranslator.cs" />
     <Compile Include="Translator\TaronEnumAttribute.cs" />

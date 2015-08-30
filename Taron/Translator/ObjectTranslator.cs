@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Reflection;
-using Taron.Model;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+
+using Taron.Model;
 
 namespace Taron.Translator
 {
     /// <summary>
-    /// Represents a translator capable of translating enum
+    /// Represents a translator capable of translating object types
     /// </summary>
-    public class EnumTranslator : IModelTranslator
+    public class ObjectTranslator : IModelTranslator
     {
-        public static Dictionary<string, Type> EnumTypes = new Dictionary<string, Type>();
-
-        internal EnumTranslator()
+        internal ObjectTranslator()
         {
         }
 
@@ -24,9 +22,7 @@ namespace Taron.Translator
         /// <returns></returns>
         public TranslateCapability CanTranslate(Type type)
         {
-            if (type.IsEnum) return TranslateCapability.CanSerialise | TranslateCapability.CanDeserialise;
-
-            return TranslateCapability.None;
+            return type == typeof(object) ? TranslateCapability.CanDeserialise : TranslateCapability.None;
         }
 
         /// <summary>
@@ -36,12 +32,6 @@ namespace Taron.Translator
         /// <returns></returns>
         public ValueNode Serialise(object obj)
         {
-            if (obj.GetType().IsEnum)
-            {
-                Enum enumobj = (Enum)obj;
-
-                System.Diagnostics.Debug.WriteLine("yay");
-            }
             return null;
         }
 
@@ -53,22 +43,27 @@ namespace Taron.Translator
         /// <returns></returns>
         public object Deserialise(Type t, ValueNode node)
         {
-            if (t.IsEnum && node is EnumValue)
+            Type nt = node.GetType();
+            Type[] genArgs = nt.GetGenericArguments();
+            if (genArgs?.Length > 0 && typeof(PrimitiveValue<>).MakeGenericType(genArgs) == nt)
             {
-                var enumvalue = (EnumValue)node;
+                return nt.GetProperty("Value").GetValue(node, null);
+            }
+            else if (node is EnumValue)
+            {
+                EnumValue enumvalue = (EnumValue)node;
 
                 Type enumtype;
 
-                if (EnumTypes.TryGetValue(String.Join(".", enumvalue.Value, 0, enumvalue.Value.Length - 1), out enumtype))
-                {
-                    var result = Enum.Parse(enumtype, enumvalue.Value.Last());
-                    if (result != null)
-                        return result;
-                }
-                else
-                    throw new InvalidOperationException($"No such TaronEnumAttribute with typename of ({String.Join(".", enumvalue.Value, 0, enumvalue.Value.Length - 1)})");
+                if (EnumTranslator.EnumTypes.TryGetValue(String.Join(".", enumvalue.Value, 0, enumvalue.Value.Length - 1), out enumtype))
+                    return Translate.Deserialise(enumvalue, enumtype);
+
+                return null;
             }
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

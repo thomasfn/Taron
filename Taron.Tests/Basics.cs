@@ -168,12 +168,6 @@ namespace Taron.Tests
             }
         }
 
-        [TaronEnum("EnumTest", typeof(EnumTest))]
-        public enum EnumTest
-        {
-            One = 1,
-            Two = 2
-        }
 
         /// <summary>
         /// Tests parsing of simple enum key value
@@ -182,11 +176,29 @@ namespace Taron.Tests
         public void Basic_Comment()
         {
             // Iterate each test value
-            string[] testValues = new string[] { "// Test Comment" };
+            string[] testValues = new string[] { @"//Hello World!", @"//", @" //", @"
+
+
+                // I am a comment! CommentInt = 100
+                Behaviours
+                {
+
+                    // I am a comment! CommentInt = 200
+                    Test
+                    {
+                        /* 
+                            I am a comment! CommentInt = 300 
+                        */
+                        TestValue = 1
+                        // I am a comment! CommentInt = 400
+                    }
+                }
+            "
+            };
             foreach (string testValue in testValues)
             {
                 // Parse
-                Node node = TaronParser.Parse($" {testValue}");
+                Node node = TaronParser.Parse($"{testValue}");
             }
         }
 

@@ -33,17 +33,16 @@ namespace Taron.Parsing
 
         [TokenPattern(@"=")] Assign         = Terminal | 0x008,
         [TokenPattern(@",")] Seperator      = Terminal | 0x009,
-        [TokenPattern(@"\.")] Dot    = Terminal | 0x00A,
+        [TokenPattern(@"\.")] Dot           = Terminal | 0x00A,
 
-        [TokenPattern("\"([^\"]*)\"")] StringLiteral                      = Terminal | 0x00B,
+        [TokenPattern("\"(([^\"\\\\])*(\\\\\")?)*\\\"")] StringLiteral    = Terminal | 0x00B,
         [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral            = Terminal | 0x00C,
         [TokenPattern("(?:false|true)")] BooleanLiteral                   = Terminal | 0x00D,
 
-        [TokenPattern("//.*")] SingleComment = Terminal | 0x00E,
+        [TokenPattern(@"//.*", true)] SingleComment     = Terminal | 0x00E,
+        [TokenPattern(@"(/\*)[\s\S]*(\*/)", true)] MultiComment   = Terminal | 0x00F,
 
-        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier = Terminal | 0x00F,
-
-        [TokenPattern(@".*")] Everything = Terminal | 0x010,
+        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier = Terminal | 0x010,
 
         TerminalCount = 0x010,
 

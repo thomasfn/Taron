@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Taron.Model;
+using Taron.Translator;
 
 namespace Taron.Tests
 {
@@ -93,7 +94,25 @@ namespace Taron.Tests
 
         #region Basic Reusable Map Test
 
-        public const string ReusableMapTest = "DecimalVal = 10.0 IntegerVal = 5 StringVal = \"thingy\" BooleanVal = true EnumValue = A.B";
+        [TaronEnum("EnumTest", typeof(EnumTest))]
+        public enum EnumTest
+        {
+            One = 1,
+            Two = 2
+        }
+
+        public const string ReusableMapTest = @"
+            // Testing a decimal value
+            DecimalVal = 10.0 
+            // Testing a int value
+            IntegerVal = 5 
+            // Testing a string value
+            StringVal = ""thingy""
+            // Testing a boolean value
+            BooleanVal = true 
+            // Testing a enum value
+            EnumValue = EnumTest.One
+        ";
         public const string ReusableMapTest_Map = "{" + ReusableMapTest + "}";
 
         /// <summary>
@@ -107,7 +126,7 @@ namespace Taron.Tests
             TestPrimitiveProperty(map, "IntegerVal", 5);
             TestPrimitiveProperty(map, "StringVal", "thingy");
             TestPrimitiveProperty(map, "BooleanVal", true);
-            TestEnumProperty(map, "EnumValue", "A.B");
+            TestEnumProperty(map, "EnumValue", "EnumTest.One");
         }
 
         public struct ReusableMapStruct

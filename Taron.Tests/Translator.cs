@@ -38,6 +38,7 @@ namespace Taron.Tests
             Assert.AreEqual(5, dict["IntegerVal"]);
             Assert.AreEqual("thingy", dict["StringVal"]);
             Assert.AreEqual(true, dict["BooleanVal"]);
+            Assert.AreEqual(TestUtils.EnumTest.One, dict["EnumValue"]);
         }
 
         /// <summary>
