@@ -1,0 +1,52 @@
+﻿Behaviours
+{
+	thingy <b_fuel>
+	{
+		IntTest = 1
+		IntArrayTest [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+		StringTest = "Hello world!"
+		StringArrayTest [ "Hello", "world", "!" ]
+
+		CharTest = "H"
+		CharArrayTest [ "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" ]
+
+		BooleanTest = true
+		BooleanArrayTest [ true, false, true, true, false, false, true ]
+
+		EnumTest = TestEnum.Two
+
+		DynamicArrayTest [ true, "Hello world!", 1, "H" ]
+	}
+}
+
+
+SomeVector
+{
+	x = 10
+	y = 20
+	<float>z = 24
+}
+
+e_welder <EntityDefinition>
+{
+	DisplayName = "Welder"
+	SpriteSheet = "items/tools/general/Welder_off"
+	Sprite = "Welder_off"
+	Behaviours
+	[
+		<b_fuel>
+		{
+			FuelLevel = 0
+			MaxFuelLevel = 1000
+		},
+		<b_fuel>
+		{
+			FuelLevel = 0
+			MaxFuelLevel = 1500
+		}
+	]
+	OrderInLayer = 180
+}
+
+EmptyMap {}

@@ -22,26 +22,29 @@ namespace Taron.Parsing
 
         [TokenPattern(@"\s+", true)] Whitespace   = Terminal | 0x001,
 
-        [TokenPattern("{")] OpenMap         = Terminal | 0x002,
-        [TokenPattern("}")] CloseMap        = Terminal | 0x003,
+        [TokenPattern("{")] OpenMap       = Terminal | 0x002,
+        [TokenPattern("}")] CloseMap      = Terminal | 0x003,
 
-        [TokenPattern(@"\[")] OpenArray     = Terminal | 0x004,
-        [TokenPattern(@"\]")] CloseArray    = Terminal | 0x005,
+        [TokenPattern(@"\[")] OpenArray       = Terminal | 0x004,
+        [TokenPattern(@"\]")] CloseArray      = Terminal | 0x005,
 
         [TokenPattern("<")] OpenTypeDef     = Terminal | 0x006,
         [TokenPattern(">")] CloseTypeDef    = Terminal | 0x007,
 
         [TokenPattern(@"=")] Assign         = Terminal | 0x008,
         [TokenPattern(@",")] Seperator      = Terminal | 0x009,
+        [TokenPattern(@"\.")] Dot           = Terminal | 0x00A,
 
-        [TokenPattern("\"(([^\"\\\\])*(\\\\\")?)*\\\"")] StringLiteral      = Terminal | 0x00A,
-        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral              = Terminal | 0x00B,
-        [TokenPattern("(?:false|true)")] BooleanLiteral                     = Terminal | 0x00C,
+        [TokenPattern("\"(([^\"\\\\])*(\\\\\")?)*\\\"")] StringLiteral    = Terminal | 0x00B,
+        [TokenPattern(@"-?([0-9]+(\.[0-9]+)?)")] NumberLiteral            = Terminal | 0x00C,
+        [TokenPattern("(?:false|true)")] BooleanLiteral                   = Terminal | 0x00D,
 
-        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier        = Terminal | 0x00D,
-        [TokenPattern(@"\.")] Dot                           = Terminal | 0x00E,
+        [TokenPattern(@"//.*", true)] SingleComment     = Terminal | 0x00E,
+        [TokenPattern(@"(/\*)[\s\S]*(\*/)", true)] MultiComment   = Terminal | 0x00F,
 
-        TerminalCount = 0x00E,
+        [TokenPattern(@"[a-zA-Z_](\w*)")] Identifier = Terminal | 0x010,
+
+        TerminalCount = 0x010,
 
         #endregion
 

@@ -5,6 +5,7 @@ using System.Linq;
 
 using Taron;
 using Taron.Model;
+using Taron.Translator;
 
 namespace Taron.Tests
 {
@@ -164,6 +165,40 @@ namespace Taron.Tests
             finally
             {
                 Assert.IsNotNull(ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Tests parsing of simple enum key value
+        /// </summary>
+        [TestMethod]
+        public void Basic_Comment()
+        {
+            // Iterate each test value
+            string[] testValues = new string[] { @"//Hello World!", @"//", @" //", @"
+
+
+                // I am a comment! CommentInt = 100
+                Behaviours
+                {
+
+                    // I am a comment! CommentInt = 200
+                    Test
+                    {
+                        /* 
+                            I am a comment! CommentInt = 300 
+                        */
+                        TestValue = 1
+                        // I am a comment! CommentInt = 400
+                    }
+                }
+            "
+            };
+            foreach (string testValue in testValues)
+            {
+                // Parse
+                Node node = TaronParser.Parse($"{testValue}");
             }
         }
 

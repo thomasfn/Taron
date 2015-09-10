@@ -227,7 +227,7 @@ namespace Taron.Translator
                 for (int i = 0; i < Math.Min(arrVal.Count, arr.Length); i++)
                 {
                     object val;
-                    translateOpts.Deserialise(elementType == typeof(object) ? null : elementType, arrVal[i], out val);
+                    translateOpts.Deserialise(elementType, arrVal[i], out val);
                     arr.SetValue(val, i);
                 }
             }
@@ -244,7 +244,7 @@ namespace Taron.Translator
                     for (int i = 0; i < arrVal.Count; i++)
                     {
                         object val;
-                        translateOpts.Deserialise(elementType == typeof(object) ? null : elementType, arrVal[i], out val);
+                        translateOpts.Deserialise(elementType, arrVal[i], out val);
                         list.Add(val);
                     }
                 }

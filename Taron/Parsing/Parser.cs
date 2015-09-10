@@ -74,20 +74,20 @@ namespace Taron.Parsing
             grammarRules = new List<GrammarRule>()
             {
                 // TypeName := '<' Identifier '>'
-                GrammarRule.Sequence(SymbolType.TypeName,       SymbolType.OpenTypeDef, SymbolType.Identifier, SymbolType.CloseTypeDef),
+                GrammarRule.Sequence(SymbolType.TypeName,               SymbolType.OpenTypeDef, SymbolType.Identifier, SymbolType.CloseTypeDef),
 
                 // PrimitiveValue := String | Number | Boolean
-                GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.StringLiteral),
-                GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.NumberLiteral),
-                GrammarRule.Sequence(SymbolType.PrimitiveValue,            SymbolType.BooleanLiteral),
+                GrammarRule.Sequence(SymbolType.PrimitiveValue,         SymbolType.StringLiteral),
+                GrammarRule.Sequence(SymbolType.PrimitiveValue,         SymbolType.NumberLiteral),
+                GrammarRule.Sequence(SymbolType.PrimitiveValue,         SymbolType.BooleanLiteral),
 
                 // EnumValue := Identifier '.' Identifier | Identifier '.' EnumValue
-                GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.Dot, SymbolType.Identifier),
-                //GrammarRule.Sequence(SymbolType.EnumValue,            SymbolType.Identifier, SymbolType.Dot, SymbolType.EnumValue),
+                GrammarRule.Sequence(SymbolType.EnumValue,              SymbolType.Identifier, SymbolType.Dot, SymbolType.Identifier),
+                GrammarRule.Sequence(SymbolType.EnumValue,              SymbolType.Identifier, SymbolType.Dot, SymbolType.EnumValue),
 
                 // MapValue := '{' KeyValueSeq '}' | '{' '}'
-                GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.KeyValueSeq, SymbolType.CloseMap),
-                GrammarRule.Sequence(SymbolType.MapValue,            SymbolType.OpenMap, SymbolType.CloseMap),
+                GrammarRule.Sequence(SymbolType.MapValue,               SymbolType.OpenMap, SymbolType.KeyValueSeq, SymbolType.CloseMap),
+                GrammarRule.Sequence(SymbolType.MapValue,               SymbolType.OpenMap, SymbolType.CloseMap),
 
                 // ArrayValue := '[' ArraySeq ']' | '[' ']'
                 GrammarRule.Sequence(SymbolType.ArrayValue,            SymbolType.OpenArray, SymbolType.ArraySeq, SymbolType.CloseArray),
@@ -111,7 +111,7 @@ namespace Taron.Parsing
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.Identifier, SymbolType.Assign, SymbolType.EnumValue),
                 GrammarRule.Sequence(SymbolType.KeyValue,            SymbolType.TypeName, SymbolType.Identifier, SymbolType.Assign, SymbolType.PrimitiveValue),
 
-                // KeyValueSeq := KeyValue*
+                // KeyValueSeq := KeyValue* | Ignore
                 GrammarRule.Sequence(SymbolType.KeyValueSeq,            SymbolType.KeyValueSeq, SymbolType.KeyValue),
                 GrammarRule.Sequence(SymbolType.KeyValueSeq,            SymbolType.KeyValue),
 
@@ -121,7 +121,7 @@ namespace Taron.Parsing
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ArraySeq, SymbolType.Seperator, SymbolType.EnumValue),
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.PrimitiveValue),
                 GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.ComplexValue),
-                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.EnumValue)
+                GrammarRule.Sequence(SymbolType.ArraySeq,            SymbolType.EnumValue),
 
             }.ToArray();
             goalSymbol = SymbolType.KeyValueSeq;
@@ -224,6 +224,7 @@ namespace Taron.Parsing
 
             // Produce all item sets
             GrammarRule goalRule = GrammarRule.Sequence(SymbolType.Goal, goalSymbol);
+
             ItemSet goalItemSet;
             List<ItemSet> itemSets = new List<ItemSet>();
             {
@@ -605,10 +606,10 @@ namespace Taron.Parsing
             {
                 case SymbolType.PrimitiveValue:
                     return FromPrimitiveValue(src);
-                case SymbolType.ComplexValue:
-                    return FromComplexValue(src);
                 case SymbolType.EnumValue:
                     return FromEnumValue(src);
+                case SymbolType.ComplexValue:
+                    return FromComplexValue(src);
                 default:
                     return null;
             }
